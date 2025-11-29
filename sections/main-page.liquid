@@ -1,0 +1,411 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap');
+
+.luxury-contact-wrapper {
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
+  padding: 80px 20px;
+  min-height: 70vh;
+}
+
+.luxury-contact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Page Title Section */
+.luxury-page-title {
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.luxury-page-title h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #000;
+  margin-bottom: 15px;
+  position: relative;
+  display: inline-block;
+}
+
+.luxury-page-title h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #000, transparent);
+}
+
+.luxury-page-subtitle {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #666;
+  margin-top: 20px;
+}
+
+/* Content Grid */
+.luxury-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 60px;
+  margin-top: 50px;
+}
+
+/* Info Card */
+.luxury-info-card {
+  background: #fff;
+  padding: 50px 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+  position: relative;
+  overflow: hidden;
+}
+
+.luxury-info-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #000 0%, #666 100%);
+}
+
+.luxury-info-card h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: #000;
+}
+
+.luxury-info-item {
+  margin-bottom: 30px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.luxury-info-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.luxury-info-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #999;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.luxury-info-value {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.luxury-info-value a {
+  color: #000;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.luxury-info-value a:hover {
+  opacity: 0.7;
+}
+
+/* Form Card */
+.luxury-form-card {
+  background: #fff;
+  padding: 50px 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+  position: relative;
+  overflow: hidden;
+}
+
+.luxury-form-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #000 0%, #666 100%);
+}
+
+.luxury-form-card h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  color: #000;
+}
+
+/* Form Styles */
+.luxury-form-group {
+  margin-bottom: 25px;
+}
+
+.luxury-form-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #999;
+  margin-bottom: 10px;
+  display: block;
+  font-weight: 600;
+}
+
+.luxury-form-input,
+.luxury-form-textarea {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 14px;
+  font-family: 'Lato', sans-serif;
+  border: 1px solid #d5d5d5;
+  border-radius: 4px;
+  background: #fafafa;
+  transition: all 0.3s ease;
+  color: #000;
+}
+
+.luxury-form-input:focus,
+.luxury-form-textarea:focus {
+  outline: none;
+  border-color: #000;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+.luxury-form-textarea {
+  min-height: 150px;
+  resize: vertical;
+  font-family: 'Lato', sans-serif;
+}
+
+.luxury-form-button {
+  width: 100%;
+  padding: 16px 0;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  background: #000;
+  color: #fff;
+  border: 1px solid #000;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.luxury-form-button:hover {
+  background: #333;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Additional Content */
+.luxury-additional-content {
+  margin-top: 50px;
+  padding: 40px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+  line-height: 1.8;
+  color: #333;
+}
+
+.luxury-additional-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+.luxury-additional-content h2,
+.luxury-additional-content h3 {
+  font-family: 'Playfair Display', serif;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.luxury-additional-content p {
+  margin-bottom: 15px;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .luxury-contact-wrapper {
+    padding: 50px 15px;
+  }
+
+  .luxury-page-title h1 {
+    font-size: 32px;
+  }
+
+  .luxury-content-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .luxury-info-card,
+  .luxury-form-card {
+    padding: 35px 25px;
+  }
+
+  .luxury-info-card h2,
+  .luxury-form-card h2 {
+    font-size: 24px;
+  }
+
+  .luxury-additional-content {
+    padding: 25px 20px;
+  }
+}
+</style>
+
+<div class="luxury-contact-wrapper section-{{ section.id }}">
+  <div class="luxury-contact-container">
+    
+    <!-- Page Title -->
+    <div class="luxury-page-title">
+      <h1>{{ page.title | escape }}</h1>
+      <p class="luxury-page-subtitle">We'd love to hear from you</p>
+    </div>
+
+    <!-- Content Grid -->
+    <div class="luxury-content-grid">
+      
+      <!-- Info Card -->
+      <div class="luxury-info-card">
+        <h2>Get in Touch</h2>
+        
+        <div class="luxury-info-item">
+          <div class="luxury-info-label">Email</div>
+          <div class="luxury-info-value">
+            <a href="mailto:hello@yourstore.com">contact.revaan@gmail.com</a>
+          </div>
+        </div>
+
+        <div class="luxury-info-item">
+          <div class="luxury-info-label">Phone</div>
+          <div class="luxury-info-value">
+            <a href="tel:+911234567890">+91 81302 19019</a>
+          </div>
+        </div>
+
+        <div class="luxury-info-item">
+          <div class="luxury-info-label">Address</div>
+          <div class="luxury-info-value">
+            489, Pathak Pura <br>
+            Orai Jalaun, 285001<br>
+            India
+          </div>
+        </div>
+
+        <div class="luxury-info-item">
+          <div class="luxury-info-label">Hours</div>
+          <div class="luxury-info-value">
+            Monday - Friday: 9:00 AM - 6:00 PM<br>
+            Saturday: 10:00 AM - 4:00 PM<br>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Card -->
+      <div class="luxury-form-card">
+        <h2>Send us a Message</h2>
+        
+        {% form 'contact' %}
+          {% if form.posted_successfully? %}
+            <div style="padding: 15px; background: #e8f5e9; color: #2e7d32; border-radius: 4px; margin-bottom: 20px; font-size: 14px;">
+              Thanks for contacting us! We'll get back to you soon.
+            </div>
+          {% endif %}
+
+          {% if form.errors %}
+            <div style="padding: 15px; background: #ffebee; color: #c62828; border-radius: 4px; margin-bottom: 20px; font-size: 14px;">
+              Please fill out all required fields.
+            </div>
+          {% endif %}
+
+          <div class="luxury-form-group">
+            <label for="contact-name" class="luxury-form-label">Name *</label>
+            <input 
+              type="text" 
+              id="contact-name" 
+              name="contact[name]" 
+              class="luxury-form-input"
+              placeholder="Your full name"
+              required>
+          </div>
+
+          <div class="luxury-form-group">
+            <label for="contact-email" class="luxury-form-label">Email *</label>
+            <input 
+              type="email" 
+              id="contact-email" 
+              name="contact[email]" 
+              class="luxury-form-input"
+              placeholder="your.email@example.com"
+              required>
+          </div>
+
+          <div class="luxury-form-group">
+            <label for="contact-phone" class="luxury-form-label">Phone</label>
+            <input 
+              type="tel" 
+              id="contact-phone" 
+              name="contact[phone]" 
+              class="luxury-form-input"
+              placeholder="+91 81302 19019">
+          </div>
+
+          <div class="luxury-form-group">
+            <label for="contact-message" class="luxury-form-label">Message *</label>
+            <textarea 
+              id="contact-message" 
+              name="contact[body]" 
+              class="luxury-form-textarea"
+              placeholder="Tell us how we can help you..."
+              required></textarea>
+          </div>
+
+          <button type="submit" class="luxury-form-button">
+            Send Message
+          </button>
+        {% endform %}
+      </div>
+    </div>
+
+    <!-- Additional Page Content -->
+    {% if page.content != blank %}
+    <div class="luxury-additional-content">
+      {{ page.content }}
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Luxury Contact Page",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,824 @@
+{% comment %}
+  ============================================
+  MANUAL PRICE SETTINGS - EDIT THESE VALUES
+  ============================================
+{% endcomment %}
+{% assign original_price = 3999 %}
+{% assign sale_price = 1999 %}
+{% comment %}
+  ============================================
+  END PRICE SETTINGS
+  ============================================
+{% endcomment %}
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #000;
+  background: #fff;
+}
+
+.luxury-product-page {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 40px 20px 0;
+  background: #fff;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: 400px 1fr 400px;
+  gap: 40px;
+  align-items: start;
+}
+
+/* LEFT COLUMN */
+.product-info-left {
+  padding-top: 20px;
+}
+
+.breadcrumb {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #999;
+  margin-bottom: 20px;
+}
+
+.breadcrumb a {
+  color: #999;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: #000;
+}
+
+.product-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+/* UPDATED PRICE SECTION */
+.product-price {
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.price-sale {
+  font-size: 24px;
+  font-weight: 600;
+  color: #000;
+}
+
+.price-compare {
+  font-size: 18px;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.price-discount {
+  font-size: 12px;
+  font-weight: 600;
+  color: #d32f2f;
+  background: #ffebee;
+  padding: 4px 8px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* COLLAPSIBLE SECTIONS */
+.info-section {
+  border-top: 1px solid #e5e5e5;
+  margin-bottom: 0;
+}
+
+.info-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.info-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.info-section-toggle {
+  font-size: 18px;
+  font-weight: 300;
+  transition: transform 0.3s ease;
+}
+
+.info-section.active .info-section-toggle {
+  transform: rotate(180deg);
+}
+
+.info-section-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.info-section.active .info-section-content {
+  max-height: 500px;
+  padding-bottom: 20px;
+}
+
+.info-section-content p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* CENTER COLUMN - IMAGE */
+.product-image-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.product-image-wrapper {
+  width: 100%;
+  max-width: 600px;
+  background: #fafafa;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  padding-bottom: 125%;
+  touch-action: pan-y;
+}
+
+.product-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Navigation Arrows */
+.image-nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e5e5e5;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  font-size: 20px;
+  color: #000;
+}
+
+.image-nav-arrow:hover {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.image-nav-arrow.prev {
+  left: 20px;
+}
+
+.image-nav-arrow.next {
+  right: 20px;
+}
+
+.image-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.image-dot {
+  width: 8px;
+  height: 8px;
+  background: #d5d5d5;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.image-dot.active {
+  background: #000;
+}
+
+/* RIGHT COLUMN */
+.product-info-right {
+  padding-top: 20px;
+}
+
+/* SIZE SELECTOR */
+.size-section {
+  margin-bottom: 25px;
+}
+
+.size-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.size-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.size-chart-link {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  text-decoration: underline;
+  color: #000;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.size-chart-link:hover {
+  opacity: 0.7;
+}
+
+.size-options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.size-option {
+  padding: 12px 0;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: #fff;
+  border: 1px solid #d5d5d5;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.size-option:hover {
+  border-color: #000;
+  font-weight: 600;
+}
+
+.size-option.selected {
+  border-color: #000;
+  border-width: 2px;
+  font-weight: 600;
+}
+
+.size-option:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* GIFT CARD CHECKBOX */
+.gift-card-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.gift-card-option input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.gift-card-option label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+/* BUTTONS */
+.button-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.btn {
+  padding: 16px 0;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.btn-add-to-cart {
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+}
+
+.btn-add-to-cart:hover {
+  background: #f5f5f5;
+}
+
+.btn-buy-now {
+  background: #000;
+  color: #fff;
+  border: 1px solid #000;
+}
+
+.btn-buy-now:hover {
+  background: #333;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* SIZE CHART MODAL */
+.size-chart-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+}
+
+.size-chart-modal.active {
+  display: flex;
+}
+
+.size-chart-modal-content {
+  background: #fff;
+  padding: 40px;
+  max-width: 600px;
+  width: 90%;
+  border-radius: 4px;
+  position: relative;
+}
+
+.size-chart-modal-close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 28px;
+  font-weight: 300;
+  cursor: pointer;
+  color: #999;
+}
+
+.size-chart-modal-close:hover {
+  color: #000;
+}
+
+.size-chart-modal img {
+  max-width: 100%;
+  height: auto;
+  margin-top: 20px;
+}
+
+/* RESPONSIVE - MOBILE */
+@media screen and (max-width: 1024px) {
+  .luxury-product-page {
+    padding: 20px 15px 0;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .product-info-left {
+    order: 2;
+    padding-top: 0;
+  }
+
+  .product-image-column {
+    order: 1;
+    margin-bottom: 0;
+  }
+
+  .product-info-right {
+    order: 3;
+    padding-top: 0;
+  }
+
+  /* Hide navigation arrows on mobile */
+  .image-nav-arrow {
+    display: none;
+  }
+
+  /* HUGE MOBILE IMAGE */
+  .product-image-wrapper {
+    max-width: 100%;
+    width: 100vw;
+    margin-left: -15px;
+    margin-right: -15px;
+    border-radius: 0;
+    padding-bottom: 130%;
+  }
+
+  .image-dots {
+    margin-top: 15px;
+    margin-bottom: 25px;
+  }
+
+  .product-title {
+    font-size: 26px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .product-price {
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-align: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .price-sale {
+    font-size: 22px;
+  }
+
+  .price-compare {
+    font-size: 16px;
+  }
+
+  .breadcrumb {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .size-options {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .button-group {
+    grid-template-columns: 1fr;
+  }
+
+  .info-section-content {
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .size-options {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .size-option {
+    padding: 10px 0;
+    font-size: 11px;
+  }
+}
+</style>
+
+<div class="luxury-product-page">
+  <div class="product-grid">
+    <!-- LEFT COLUMN - INFO -->
+    <div class="product-info-left">
+      <!-- Breadcrumb -->
+      <div class="breadcrumb">
+        <a href="/">HOME</a> › 
+        <a href="/collections/all">ALL PRODUCTS</a> › 
+        <span>{{ product.title | upcase }}</span>
+      </div>
+
+      <!-- Product Title -->
+      <h1 class="product-title">{{ product.title }}</h1>
+
+      <!-- Price with Manual Comparison -->
+      <div class="product-price">
+        <span class="price-sale">₹{{ sale_price }}</span>
+        <span class="price-compare">₹{{ original_price }}</span>
+      </div>
+
+      <!-- Collapsible Sections -->
+      <div class="info-section active">
+        <div class="info-section-header" onclick="toggleSection(this)">
+          <h3 class="info-section-title">Description</h3>
+          <span class="info-section-toggle">−</span>
+        </div>
+        <div class="info-section-content">
+          {{ product.description }}
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-section-header" onclick="toggleSection(this)">
+          <h3 class="info-section-title">Details</h3>
+          <span class="info-section-toggle">+</span>
+        </div>
+        <div class="info-section-content">
+          <p>TERRY COTTON / TERRY LYCRA</p>
+          <p>WEIGHT - 240 GSM</p>
+          <p>HIGH DENSITY SCREEN WITH 3d PUFF PRINT</p>
+          <p>REVERSE WASH ONLY</p>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-section-header" onclick="toggleSection(this)">
+          <h3 class="info-section-title">Shipping</h3>
+          <span class="info-section-toggle">+</span>
+        </div>
+        <div class="info-section-content">
+          <p>PACKED WITHIN 24 HOURS</p>
+          <p>FREE DELIVERY PAN-INDIA</p>
+          <p>DISPATCHES NEXT DAY</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER COLUMN - IMAGE -->
+    <div class="product-image-column">
+      <div class="product-image-wrapper" id="image-wrapper">
+        <img 
+          src="{{ product.featured_image | img_url: 'large' }}" 
+          alt="{{ product.title }}"
+          class="product-image"
+          id="main-product-image">
+        
+        {% if product.images.size > 1 %}
+        <div class="image-nav-arrow prev" onclick="navigateImage('prev')">‹</div>
+        <div class="image-nav-arrow next" onclick="navigateImage('next')">›</div>
+        {% endif %}
+      </div>
+      
+      {% if product.images.size > 1 %}
+      <div class="image-dots">
+        {% for image in product.images %}
+          <div class="image-dot {% if forloop.first %}active{% endif %}" 
+               data-image-src="{{ image | img_url: 'large' }}"
+               onclick="changeImage(this)"></div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- RIGHT COLUMN - FORM -->
+    <div class="product-info-right">
+      <form action="/cart/add" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" id="variant-id">
+
+        <!-- Size Selector -->
+        {% if product.variants.size > 1 %}
+        <div class="size-section">
+          <div class="size-header">
+            <div class="size-label">Size</div>
+            <button type="button" class="size-chart-link" onclick="document.getElementById('size-chart-modal').classList.add('active')">
+              Size Chart
+            </button>
+          </div>
+          
+          <div class="size-options">
+            {% for variant in product.variants %}
+              <button 
+                type="button" 
+                class="size-option {% if variant == product.selected_or_first_available_variant %}selected{% endif %}" 
+                data-variant-id="{{ variant.id }}"
+                {% unless variant.available %}disabled{% endunless %}>
+                {{ variant.title }}
+              </button>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Gift Card Option -->
+        <div class="gift-card-option">
+          <input type="checkbox" id="gift-card" name="properties[Gift Card]" value="Yes">
+          <label for="gift-card">Have a Gift Card?</label>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-group">
+          <button type="submit" class="btn btn-add-to-cart" {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+            {% if product.selected_or_first_available_variant.available %}
+              Add to Cart
+            {% else %}
+              Sold Out
+            {% endif %}
+          </button>
+          <button type="button" class="btn btn-buy-now" {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+            Buy Now
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Size Chart Modal -->
+<div id="size-chart-modal" class="size-chart-modal">
+  <div class="size-chart-modal-content">
+    <span class="size-chart-modal-close" onclick="document.getElementById('size-chart-modal').classList.remove('active')">&times;</span>
+    <h3 style="font-size: 18px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px;">Size Chart</h3>
+    {% if section.settings.size_chart_image != blank %}
+      <img src="{{ section.settings.size_chart_image | image_url: width: 800 }}" alt="Size Chart" />
+    {% else %}
+      <p style="margin-top: 20px;">Please upload a size chart image from the theme editor.</p>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+// Toggle collapsible sections
+function toggleSection(header) {
+  const section = header.parentElement;
+  const toggle = header.querySelector('.info-section-toggle');
+  
+  section.classList.toggle('active');
+  toggle.textContent = section.classList.contains('active') ? '−' : '+';
+}
+
+// Size selector
+document.querySelectorAll('.size-option').forEach(button => {
+  button.addEventListener('click', function() {
+    if (this.disabled) return;
+    
+    document.querySelectorAll('.size-option').forEach(btn => btn.classList.remove('selected'));
+    this.classList.add('selected');
+    
+    const variantId = this.getAttribute('data-variant-id');
+    document.getElementById('variant-id').value = variantId;
+  });
+});
+
+// Image Gallery Management
+let currentImageIndex = 0;
+const imageDots = document.querySelectorAll('.image-dot');
+const totalImages = imageDots.length;
+
+// Image switching by dot click
+function changeImage(dot) {
+  const imageSrc = dot.getAttribute('data-image-src');
+  const mainImage = document.getElementById('main-product-image');
+  
+  mainImage.src = imageSrc;
+  
+  imageDots.forEach((d, index) => {
+    if (d === dot) {
+      currentImageIndex = index;
+      d.classList.add('active');
+    } else {
+      d.classList.remove('active');
+    }
+  });
+}
+
+// Navigate images with arrows
+function navigateImage(direction) {
+  if (totalImages === 0) return;
+  
+  if (direction === 'prev') {
+    currentImageIndex = (currentImageIndex - 1 + totalImages) % totalImages;
+  } else {
+    currentImageIndex = (currentImageIndex + 1) % totalImages;
+  }
+  
+  const targetDot = imageDots[currentImageIndex];
+  changeImage(targetDot);
+}
+
+// Touch Swipe Functionality
+let touchStartX = 0;
+let touchEndX = 0;
+
+const imageWrapper = document.getElementById('image-wrapper');
+
+if (imageWrapper && totalImages > 1) {
+  imageWrapper.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  imageWrapper.addEventListener('touchend', function(e) {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, { passive: true });
+}
+
+function handleSwipe() {
+  const swipeThreshold = 50;
+  const diff = touchStartX - touchEndX;
+  
+  if (Math.abs(diff) > swipeThreshold) {
+    if (diff > 0) {
+      navigateImage('next');
+    } else {
+      navigateImage('prev');
+    }
+  }
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', function(e) {
+  if (totalImages > 1) {
+    if (e.key === 'ArrowLeft') {
+      navigateImage('prev');
+    } else if (e.key === 'ArrowRight') {
+      navigateImage('next');
+    }
+  }
+});
+
+// Close modal on outside click
+const sizeChartModal = document.getElementById('size-chart-modal');
+if (sizeChartModal) {
+  sizeChartModal.addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.classList.remove('active');
+    }
+  });
+}
+
+// Buy Now functionality
+const buyNowBtn = document.querySelector('.btn-buy-now');
+if (buyNowBtn) {
+  buyNowBtn.addEventListener('click', function() {
+    if (!this.disabled) {
+      const form = this.closest('form');
+      const formData = new FormData(form);
+      
+      fetch('/cart/add.js', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        window.location.href = '/checkout';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  });
+}
+</script>
+
+{% schema %}
+{
+  "name": "Luxury Product Page",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "size_chart_image",
+      "label": "Size Chart Image"
+    }
+  ]
+}
+{% endschema %}

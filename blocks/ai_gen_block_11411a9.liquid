@@ -1,0 +1,566 @@
+{% comment %}
+  @prompt
+    Create a "You May Also Like" product recommendation section exactly like Bluorng.com.
+    
+    Layout Requirements:
+    
+    4 product cards per row on desktop, responsive to 2 per row on tablet and mobile
+    
+    Even spacing and margins like Bluorng's "You May Also Like" section
+    
+    Display main product image by default
+    
+    On hover, switch to second product image with smooth fade transition
+    
+    Black or very dark background (#0b0b0b style)
+    
+    Product images should have a subtle shadow to pop from background
+    
+    Captions below each product:
+    
+    Product Name in uppercase, clean sans-serif font
+    
+    Price beneath in smaller size, same style as Bluorng
+    
+    Price comparison showing sale price and compare at price
+    
+    Hover Animation:
+    
+    Image swap must be quick (200–300ms) and smooth
+    
+    No zoom effect — only clean image change
+    
+    Spacing:
+    
+    Large side padding like Bluorng's layout
+    
+    Text left aligned under product images
+    
+    Buttons:
+    
+    A small "Discover More" link aligned top-right above section
+    
+    Overall Look:
+    
+    Modern & minimal streetwear style
+    
+    Keep section typography bold and premium
+    
+    Ensure the result looks like Bluorng.com's "You May Also Like" section with no visible borders or card backgrounds
+{% endcomment %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-you-may-like-{{ ai_gen_id }} {
+    background-color: {{ block.settings.section_bg_color }};
+    padding: {{ block.settings.section_padding_desktop }}px {{ block.settings.side_padding_desktop }}px;
+  }
+
+  .ai-you-may-like-header-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: {{ block.settings.header_spacing }}px;
+  }
+
+  .ai-you-may-like-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.text_color }};
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+  }
+
+  .ai-you-may-like-link-{{ ai_gen_id }} {
+    font-size: {{ block.settings.link_size }}px;
+    color: {{ block.settings.text_color }};
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: opacity 0.3s ease;
+  }
+
+  .ai-you-may-like-link-{{ ai_gen_id }}:hover {
+    opacity: 0.7;
+  }
+
+  .ai-you-may-like-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: {{ block.settings.grid_gap }}px;
+  }
+
+  .ai-you-may-like-card-{{ ai_gen_id }} {
+    text-decoration: none;
+    display: block;
+  }
+
+  .ai-you-may-like-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    padding-bottom: 125%;
+    overflow: hidden;
+    margin-bottom: {{ block.settings.caption_spacing }}px;
+    box-shadow: {{ block.settings.image_shadow }};
+  }
+
+  .ai-you-may-like-image-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity {{ block.settings.transition_speed }}ms ease;
+  }
+
+  .ai-you-may-like-image-primary-{{ ai_gen_id }} {
+    opacity: 1;
+    z-index: 2;
+  }
+
+  .ai-you-may-like-image-secondary-{{ ai_gen_id }} {
+    opacity: 0;
+    z-index: 1;
+  }
+
+  .ai-you-may-like-card-{{ ai_gen_id }}:hover .ai-you-may-like-image-primary-{{ ai_gen_id }} {
+    opacity: 0;
+  }
+
+  .ai-you-may-like-card-{{ ai_gen_id }}:hover .ai-you-may-like-image-secondary-{{ ai_gen_id }} {
+    opacity: 1;
+  }
+
+  .ai-you-may-like-info-{{ ai_gen_id }} {
+    text-align: left;
+  }
+
+  .ai-you-may-like-product-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.product_title_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.text_color }};
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 {{ block.settings.title_price_gap }}px 0;
+    line-height: 1.3;
+  }
+
+  .ai-you-may-like-price-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .ai-you-may-like-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size }}px;
+    color: {{ block.settings.text_color }};
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .ai-you-may-like-compare-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size | times: 0.9 }}px;
+    color: {{ block.settings.text_color }};
+    text-decoration: line-through;
+    margin: 0;
+    font-weight: 400;
+    opacity: 0.5;
+  }
+
+  .ai-you-may-like-placeholder-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-you-may-like-placeholder-{{ ai_gen_id }} svg {
+    width: 50%;
+    height: 50%;
+    opacity: 0.3;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-you-may-like-{{ ai_gen_id }} {
+      padding: {{ block.settings.section_padding_tablet }}px {{ block.settings.side_padding_tablet }}px;
+    }
+
+    .ai-you-may-like-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-you-may-like-{{ ai_gen_id }} {
+      padding: {{ block.settings.section_padding_mobile }}px {{ block.settings.side_padding_mobile }}px;
+    }
+
+    .ai-you-may-like-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ai-you-may-like-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.8 }}px;
+    }
+
+    .ai-you-may-like-link-{{ ai_gen_id }} {
+      font-size: {{ block.settings.link_size | times: 0.85 }}px;
+    }
+
+    .ai-you-may-like-product-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.product_title_size | times: 0.9 }}px;
+    }
+
+    .ai-you-may-like-price-{{ ai_gen_id }} {
+      font-size: {{ block.settings.price_size | times: 0.9 }}px;
+    }
+
+    .ai-you-may-like-compare-price-{{ ai_gen_id }} {
+      font-size: {{ block.settings.price_size | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-you-may-like-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-you-may-like-header-{{ ai_gen_id }}">
+    {% if block.settings.section_title != blank %}
+      <h2 class="ai-you-may-like-title-{{ ai_gen_id }}">{{ block.settings.section_title }}</h2>
+    {% endif %}
+    {% if block.settings.discover_link != blank %}
+      <a href="{{ block.settings.discover_link }}" class="ai-you-may-like-link-{{ ai_gen_id }}">
+        {{ block.settings.discover_text }}
+      </a>
+    {% endif %}
+  </div>
+
+  <div class="ai-you-may-like-grid-{{ ai_gen_id }}">
+    {% if block.settings.product_list != blank %}
+      {% for product in block.settings.product_list %}
+        {% liquid
+          assign compare_at_price = 399900
+          assign price = 199900
+        %}
+        
+        <a href="{{ product.url }}" class="ai-you-may-like-card-{{ ai_gen_id }}">
+          <div class="ai-you-may-like-image-wrapper-{{ ai_gen_id }}">
+            {% if product.featured_image %}
+              <img
+                src="{{ product.featured_image | image_url: width: 600 }}"
+                alt="{{ product.featured_image.alt | escape }}"
+                class="ai-you-may-like-image-{{ ai_gen_id }} ai-you-may-like-image-primary-{{ ai_gen_id }}"
+                loading="lazy"
+                width="600"
+                height="750"
+              >
+            {% else %}
+              <div class="ai-you-may-like-placeholder-{{ ai_gen_id }}">
+                {{ 'product-1' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+
+            {% if product.images[1] %}
+              <img
+                src="{{ product.images[1] | image_url: width: 600 }}"
+                alt="{{ product.images[1].alt | escape }}"
+                class="ai-you-may-like-image-{{ ai_gen_id }} ai-you-may-like-image-secondary-{{ ai_gen_id }}"
+                loading="lazy"
+                width="600"
+                height="750"
+              >
+            {% elsif product.featured_image %}
+              <img
+                src="{{ product.featured_image | image_url: width: 600 }}"
+                alt="{{ product.featured_image.alt | escape }}"
+                class="ai-you-may-like-image-{{ ai_gen_id }} ai-you-may-like-image-secondary-{{ ai_gen_id }}"
+                loading="lazy"
+                width="600"
+                height="750"
+              >
+            {% endif %}
+          </div>
+
+          <div class="ai-you-may-like-info-{{ ai_gen_id }}">
+            <h3 class="ai-you-may-like-product-title-{{ ai_gen_id }}">{{ product.title }}</h3>
+            <div class="ai-you-may-like-price-wrapper-{{ ai_gen_id }}">
+              <p class="ai-you-may-like-price-{{ ai_gen_id }}">{{ price | money }}</p>
+              <p class="ai-you-may-like-compare-price-{{ ai_gen_id }}">{{ compare_at_price | money }}</p>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    {% else %}
+      {% for i in (1..4) %}
+        <div class="ai-you-may-like-card-{{ ai_gen_id }}">
+          <div class="ai-you-may-like-image-wrapper-{{ ai_gen_id }}">
+            <div class="ai-you-may-like-placeholder-{{ ai_gen_id }}">
+              {{ 'product-1' | placeholder_svg_tag }}
+            </div>
+          </div>
+          <div class="ai-you-may-like-info-{{ ai_gen_id }}">
+            <h3 class="ai-you-may-like-product-title-{{ ai_gen_id }}">Product Name</h3>
+            <div class="ai-you-may-like-price-wrapper-{{ ai_gen_id }}">
+              <p class="ai-you-may-like-price-{{ ai_gen_id }}">₹1,999</p>
+              <p class="ai-you-may-like-compare-price-{{ ai_gen_id }}">₹3,999</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "You may also like",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "section_title",
+      "label": "Title",
+      "default": "You May Also Like"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "discover_text",
+      "label": "Discover link text",
+      "default": "Discover More"
+    },
+    {
+      "type": "url",
+      "id": "discover_link",
+      "label": "Discover link URL"
+    },
+    {
+      "type": "header",
+      "content": "Products"
+    },
+    {
+      "type": "product_list",
+      "id": "product_list",
+      "label": "Products",
+      "limit": 8,
+      "info": "Select up to 8 products. For best results, ensure each product has at least 2 images for hover effect."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Background",
+      "default": "#0b0b0b"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_desktop",
+      "min": 20,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Section padding (desktop)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "side_padding_desktop",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Side padding (desktop)",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "section_padding_tablet",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Section padding (tablet)",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "side_padding_tablet",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Side padding (tablet)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding_mobile",
+      "min": 15,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Section padding (mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "side_padding_mobile",
+      "min": 15,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Side padding (mobile)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Grid gap",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "header_spacing",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Header spacing",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "caption_spacing",
+      "min": 5,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Caption spacing",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "title_price_gap",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Title to price gap",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Section title size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "link_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Link size",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "product_title_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Product title size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Price size",
+      "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Image effects"
+    },
+    {
+      "type": "select",
+      "id": "image_shadow",
+      "label": "Image shadow",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "0 4px 12px rgba(0, 0, 0, 0.15)",
+          "label": "Subtle"
+        },
+        {
+          "value": "0 8px 20px rgba(0, 0, 0, 0.25)",
+          "label": "Medium"
+        },
+        {
+          "value": "0 12px 30px rgba(0, 0, 0, 0.35)",
+          "label": "Strong"
+        }
+      ],
+      "default": "0 8px 20px rgba(0, 0, 0, 0.25)"
+    },
+    {
+      "type": "range",
+      "id": "transition_speed",
+      "min": 100,
+      "max": 500,
+      "step": 50,
+      "unit": "ms",
+      "label": "Hover transition speed",
+      "default": 250
+    }
+  ],
+  "presets": [
+    {
+      "name": "You may also like"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,661 @@
+{% comment %}
+  @prompt
+    Create a Shopify custom section that replicates the "Latest Drop" layout shown in this reference image:
+    /mnt/data/9f7661d9-39d3-485e-8e56-77cd9f9085e1.png
+    
+    Design Requirements
+    
+    Section Title
+    
+    Small uppercase title at the top-left: "LATEST DROP"
+    
+    Simple, modern sans-serif font (similar to Bluorng's clean minimal style)
+    
+    Slight letter spacing
+    
+    Black text, left aligned
+    
+    Product Grid Layout
+    
+    A 4-column layout on desktop
+    
+    2-columns on tablet
+    
+    2 column on mobile
+    
+    Even spacing between items (similar to Bluorng's large clean gutters)
+    
+    Each frame should have:
+    
+    Square/vertical orientation similar to reference
+    
+    No border
+    
+    Clean whitespace
+    
+    Items aligned bottom-left for product name & price
+    
+    Product Card Design
+    
+    Large product image container
+    
+    Title below image in small, simple font
+    
+    Price in similar clean minimal font
+    
+    Alignment should mimic the reference style exactly
+    
+    Bottom spacing same as reference
+    
+    Hover Image Switch
+    
+    On hover, the product image should switch to a second image
+    
+    Smooth fade transition (0.3s–0.5s opacity transition)
+    
+    Works on mobile with tap/touch interaction
+    
+    Inputs for Merchant
+    
+    Allow merchant to add multiple products
+    
+    For each product:
+    
+    product title
+    
+    price
+    
+    primary image
+    
+    hover image
+    
+    product URL (optional)
+    
+    Spacing + Frame Requirements
+    
+    Ample padding around the section (top & bottom 40–60px)
+    
+    Consistent spacing between cards (24–32px)
+    
+    Grid must feel open and modern like Bluorng
+    
+    Fonts
+    
+    Use Shopify theme's default sans-serif font
+    
+    Make it look as close as possible to Bluorng's clean minimalist styling
+    
+    Mobile Responsiveness
+    
+    Smooth responsive behavior
+    
+    Proper spacing and stacked layout on mobile
+    
+    Hover effect works on both desktop and mobile
+{% endcomment %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-latest-drop-{{ ai_gen_id }} {
+    padding: {{ block.settings.section_padding_top }}px 20px {{ block.settings.section_padding_bottom }}px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .ai-latest-drop__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0 0 {{ block.settings.title_spacing }}px 0;
+    color: {{ block.settings.title_color }};
+    font-weight: 400;
+    text-align: left;
+  }
+
+  .ai-latest-drop__grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat({{ block.settings.columns_desktop }}, 1fr);
+    gap: {{ block.settings.grid_gap }}px;
+  }
+
+  .ai-latest-drop__card-{{ ai_gen_id }} {
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .ai-latest-drop__image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    padding-bottom: {{ block.settings.image_ratio }}%;
+    overflow: hidden;
+    background-color: #f4f4f4;
+    margin-bottom: {{ block.settings.card_spacing }}px;
+  }
+
+  .ai-latest-drop__image-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity {{ block.settings.transition_speed }}s ease;
+  }
+
+  .ai-latest-drop__image--primary-{{ ai_gen_id }} {
+    opacity: 1;
+    z-index: 1;
+  }
+
+  .ai-latest-drop__image--hover-{{ ai_gen_id }} {
+    opacity: 0;
+    z-index: 2;
+  }
+
+  /* Desktop hover effect */
+  @media (hover: hover) {
+    .ai-latest-drop__card-{{ ai_gen_id }}:hover .ai-latest-drop__image--primary-{{ ai_gen_id }} {
+      opacity: 0;
+    }
+
+    .ai-latest-drop__card-{{ ai_gen_id }}:hover .ai-latest-drop__image--hover-{{ ai_gen_id }} {
+      opacity: 1;
+    }
+  }
+
+  /* Mobile tap effect - active state */
+  .ai-latest-drop__card-{{ ai_gen_id }}.is-active .ai-latest-drop__image--primary-{{ ai_gen_id }} {
+    opacity: 0;
+  }
+
+  .ai-latest-drop__card-{{ ai_gen_id }}.is-active .ai-latest-drop__image--hover-{{ ai_gen_id }} {
+    opacity: 1;
+  }
+
+  .ai-latest-drop__info-{{ ai_gen_id }} {
+    text-align: left;
+  }
+
+  .ai-latest-drop__product-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.product_title_size }}px;
+    margin: 0 0 {{ block.settings.info_spacing }}px 0;
+    color: {{ block.settings.text_color }};
+    font-weight: 400;
+    line-height: 1.3;
+  }
+
+  .ai-latest-drop__price-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .ai-latest-drop__price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size }}px;
+    color: {{ block.settings.sale_price_color }};
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .ai-latest-drop__compare-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size | times: 0.9 }}px;
+    color: {{ block.settings.compare_price_color }};
+    text-decoration: line-through;
+    margin: 0;
+    font-weight: 400;
+    opacity: 0.5;
+  }
+
+  .ai-latest-drop__discount-badge-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size | times: 0.85 }}px;
+    color: {{ block.settings.badge_text_color }};
+    background-color: {{ block.settings.badge_bg_color }};
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .ai-latest-drop__placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-latest-drop__placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-latest-drop__grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.columns_tablet }}, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-latest-drop-{{ ai_gen_id }} {
+      padding: {{ block.settings.section_padding_top | times: 0.7 }}px 16px {{ block.settings.section_padding_bottom | times: 0.7 }}px;
+    }
+
+    .ai-latest-drop__grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr);
+      gap: {{ block.settings.grid_gap | times: 0.75 }}px;
+    }
+
+    .ai-latest-drop__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.8 }}px;
+      margin-bottom: {{ block.settings.title_spacing | times: 0.8 }}px;
+    }
+
+    .ai-latest-drop__product-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.product_title_size | times: 0.9 }}px;
+    }
+
+    .ai-latest-drop__price-{{ ai_gen_id }} {
+      font-size: {{ block.settings.price_size | times: 0.9 }}px;
+    }
+
+    .ai-latest-drop__compare-price-{{ ai_gen_id }} {
+      font-size: {{ block.settings.price_size | times: 0.8 }}px;
+    }
+
+    .ai-latest-drop__discount-badge-{{ ai_gen_id }} {
+      font-size: {{ block.settings.price_size | times: 0.75 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-latest-drop-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.section_title != blank %}
+    <h2 class="ai-latest-drop__title-{{ ai_gen_id }}">{{ block.settings.section_title }}</h2>
+  {% endif %}
+
+  <div class="ai-latest-drop__grid-{{ ai_gen_id }}">
+    {% for i in (1..12) %}
+      {% liquid
+        assign product_key = 'product_' | append: i
+        assign product = block.settings[product_key]
+      %}
+
+      {% if product != blank %}
+        {% liquid
+          assign compare_at_price = 399900
+          assign price = 199900
+          assign price_difference = compare_at_price | minus: price
+          assign discount_percentage = price_difference | times: 100.0 | divided_by: compare_at_price | round
+        %}
+
+        <a href="{{ product.url }}" class="ai-latest-drop__card-{{ ai_gen_id }}" data-card>
+          <div class="ai-latest-drop__image-wrapper-{{ ai_gen_id }}">
+            {% if product.images[0] %}
+              <img
+                src="{{ product.images[0] | image_url: width: 800 }}"
+                alt="{{ product.images[0].alt | escape }}"
+                loading="lazy"
+                width="800"
+                height="{{ 800 | times: block.settings.image_ratio | divided_by: 100 }}"
+                class="ai-latest-drop__image-{{ ai_gen_id }} ai-latest-drop__image--primary-{{ ai_gen_id }}"
+              >
+            {% else %}
+              <div class="ai-latest-drop__placeholder-{{ ai_gen_id }}">
+                {{ 'product-1' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+
+            {% if product.images[1] %}
+              <img
+                src="{{ product.images[1] | image_url: width: 800 }}"
+                alt="{{ product.images[1].alt | escape }}"
+                loading="lazy"
+                width="800"
+                height="{{ 800 | times: block.settings.image_ratio | divided_by: 100 }}"
+                class="ai-latest-drop__image-{{ ai_gen_id }} ai-latest-drop__image--hover-{{ ai_gen_id }}"
+              >
+            {% endif %}
+          </div>
+
+          <div class="ai-latest-drop__info-{{ ai_gen_id }}">
+            <h3 class="ai-latest-drop__product-title-{{ ai_gen_id }}">{{ product.title }}</h3>
+            
+            <div class="ai-latest-drop__price-wrapper-{{ ai_gen_id }}">
+              <p class="ai-latest-drop__price-{{ ai_gen_id }}">{{ price | money }}</p>
+              <p class="ai-latest-drop__compare-price-{{ ai_gen_id }}">{{ compare_at_price | money }}</p>
+            </div>
+          </div>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  (function() {
+    // Mobile touch handling for image switching
+    const cards = document.querySelectorAll('[data-card]');
+    let activeCard = null;
+
+    cards.forEach(card => {
+      // Handle touch events on mobile
+      card.addEventListener('touchstart', function(e) {
+        // If this card is already active, let the link work normally
+        if (this.classList.contains('is-active')) {
+          return;
+        }
+        
+        // Otherwise, prevent navigation and show hover image
+        e.preventDefault();
+        
+        // Remove active state from other cards
+        if (activeCard && activeCard !== this) {
+          activeCard.classList.remove('is-active');
+        }
+        
+        // Toggle active state on this card
+        this.classList.add('is-active');
+        activeCard = this;
+      });
+    });
+
+    // Remove active state when tapping outside
+    document.addEventListener('touchstart', function(e) {
+      if (!e.target.closest('[data-card]')) {
+        cards.forEach(card => card.classList.remove('is-active'));
+        activeCard = null;
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Latest drop",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section title"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Title",
+      "default": "LATEST DROP"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Title size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "title_spacing",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Title bottom spacing",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "columns_tablet",
+      "label": "Columns on tablet",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 4,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Grid spacing",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Product cards"
+    },
+    {
+      "type": "range",
+      "id": "image_ratio",
+      "min": 80,
+      "max": 150,
+      "step": 5,
+      "unit": "%",
+      "label": "Image ratio",
+      "default": 125
+    },
+    {
+      "type": "range",
+      "id": "card_spacing",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Space below image",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "product_title_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Product title size",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Price size",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "info_spacing",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Space between title and price",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Pricing & Discounts"
+    },
+    {
+      "type": "color",
+      "id": "sale_price_color",
+      "label": "Sale price color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "compare_price_color",
+      "label": "Compare at price color",
+      "default": "#000000"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_discount_badge",
+      "label": "Show discount percentage badge",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Discount badge background",
+      "default": "#FF0000"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Discount badge text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Hover effect"
+    },
+    {
+      "type": "range",
+      "id": "transition_speed",
+      "min": 0.1,
+      "max": 1,
+      "step": 0.1,
+      "label": "Transition speed",
+      "default": 0.4
+    },
+    {
+      "type": "header",
+      "content": "Products"
+    },
+    {
+      "type": "product",
+      "id": "product_1",
+      "label": "Product 1"
+    },
+    {
+      "type": "product",
+      "id": "product_2",
+      "label": "Product 2"
+    },
+    {
+      "type": "product",
+      "id": "product_3",
+      "label": "Product 3"
+    },
+    {
+      "type": "product",
+      "id": "product_4",
+      "label": "Product 4"
+    },
+    {
+      "type": "product",
+      "id": "product_5",
+      "label": "Product 5"
+    },
+    {
+      "type": "product",
+      "id": "product_6",
+      "label": "Product 6"
+    },
+    {
+      "type": "product",
+      "id": "product_7",
+      "label": "Product 7"
+    },
+    {
+      "type": "product",
+      "id": "product_8",
+      "label": "Product 8"
+    },
+    {
+      "type": "product",
+      "id": "product_9",
+      "label": "Product 9"
+    },
+    {
+      "type": "product",
+      "id": "product_10",
+      "label": "Product 10"
+    },
+    {
+      "type": "product",
+      "id": "product_11",
+      "label": "Product 11"
+    },
+    {
+      "type": "product",
+      "id": "product_12",
+      "label": "Product 12"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Latest drop"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,331 @@
+{% doc %}
+  @prompt
+    reate a Shopify custom section that replicates the smooth horizontal scrolling ticker seen on Bluorng.com.
+    Reference image:
+    /mnt/data/fbb87c96-b0c1-4887-97df-d24da1cd39f7.png
+    
+    Ticker Requirements
+    
+    Smooth Scrolling
+    
+    Very soft, slow movement (approx. 1–2 seconds per loop start)
+    
+    Continuous infinite scroll
+    
+    No jerks, no jumps
+    
+    Same buttery-smooth animation seen on Bluorng
+    
+    Design
+    
+    Full-width black background bar
+    
+    White text in clean modern sans-serif font
+    
+    Slight spacing between repeating text
+    
+    Text vertically centered
+    
+    Height similar to Bluorng (around 48–60px)
+    
+    Content Controls
+    
+    Merchant can add multiple text items
+    
+    They should repeat in a single line horizontally
+    
+    Example: “SHIPPING WORLDWIDE • SHIPPING WORLDWIDE • SHIPPING WORLDWIDE…”
+    
+    Animation
+    
+    CSS marquee-like effect using:
+    
+    @keyframes translateX animation
+    
+    Linear infinite loop
+    
+    Text duplicates automatically to create seamless loop
+    
+    Responsive
+    
+    Works smoothly on mobile, tablet, and desktop
+    
+    No scrollbars
+    
+    Text adjusts size for smaller screens
+    
+    Customization Settings
+    
+    Text size
+    
+    Text color
+    
+    Background color
+    
+    Speed slider (1–10 range)
+    
+    Spacing between repeated texts
+    
+    Output
+    
+    Produce complete Liquid, HTML, and CSS code in one section
+    
+    Make sure the animation is identical in smoothness to Bluorng’s ticker, the hight of the section should be less 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-ticker-wrapper-{{ ai_gen_id }} {
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    overflow: hidden;
+    position: relative;
+    height: {{ block.settings.ticker_height }}px;
+    display: flex;
+    align-items: center;
+  }
+
+  .ai-ticker-container-{{ ai_gen_id }} {
+    display: flex;
+    width: fit-content;
+    animation: ai-ticker-scroll-{{ ai_gen_id }} {{ block.settings.speed }}s linear infinite;
+    will-change: transform;
+  }
+
+  .ai-ticker-content-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .ai-ticker-item-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.text_size }}px;
+    font-weight: {{ block.settings.font_weight }};
+    letter-spacing: {{ block.settings.letter_spacing }}px;
+    padding: 0 {{ block.settings.item_spacing }}px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .ai-ticker-separator-{{ ai_gen_id }} {
+    margin: 0 {{ block.settings.separator_spacing }}px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.7;
+  }
+
+  @keyframes ai-ticker-scroll-{{ ai_gen_id }} {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-ticker-wrapper-{{ ai_gen_id }} {
+      height: {{ block.settings.ticker_height_mobile }}px;
+    }
+
+    .ai-ticker-item-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-ticker-wrapper-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-ticker-container-{{ ai_gen_id }}">
+    <div class="ai-ticker-content-{{ ai_gen_id }}">
+      {% for i in (1..2) %}
+        {% for item in block.settings.ticker_items %}
+          <span class="ai-ticker-item-{{ ai_gen_id }}">{{ item }}</span>
+          {% unless forloop.last %}
+            <span class="ai-ticker-separator-{{ ai_gen_id }}">{{ block.settings.separator }}</span>
+          {% endunless %}
+        {% endfor %}
+        {% unless forloop.last %}
+          <span class="ai-ticker-separator-{{ ai_gen_id }}">{{ block.settings.separator }}</span>
+        {% endunless %}
+      {% endfor %}
+    </div>
+    <div class="ai-ticker-content-{{ ai_gen_id }}">
+      {% for i in (1..2) %}
+        {% for item in block.settings.ticker_items %}
+          <span class="ai-ticker-item-{{ ai_gen_id }}">{{ item }}</span>
+          {% unless forloop.last %}
+            <span class="ai-ticker-separator-{{ ai_gen_id }}">{{ block.settings.separator }}</span>
+          {% endunless %}
+        {% endfor %}
+        {% unless forloop.last %}
+          <span class="ai-ticker-separator-{{ ai_gen_id }}">{{ block.settings.separator }}</span>
+        {% endunless %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Smooth ticker",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "textarea",
+      "id": "ticker_items",
+      "label": "Ticker text items",
+      "default": "SHIPPING WORLDWIDE\nFREE RETURNS\nNEW ARRIVALS DAILY",
+      "info": "Add each item on a new line"
+    },
+    {
+      "type": "text",
+      "id": "separator",
+      "label": "Separator",
+      "default": "•"
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "s",
+      "label": "Speed",
+      "default": 30,
+      "info": "Lower = faster, Higher = slower"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "min": 8,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size (mobile)",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "label": "Letter spacing",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "ticker_height",
+      "min": 20,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Height",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "ticker_height_mobile",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Height (mobile)",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "item_spacing",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Item spacing",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "separator_spacing",
+      "min": 5,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Separator spacing",
+      "default": 15
+    }
+  ],
+  "presets": [
+    {
+      "name": "Smooth ticker"
+    }
+  ]
+}
+{% endschema %}
